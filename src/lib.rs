@@ -220,7 +220,7 @@ pub trait Events {
 
 impl Cluster {
     pub fn new() -> Cluster {
-        let kubernetes_api_host: &str = &env::var("KUBERNETES_API_HOST").expect("KUBERNETES_API_HOST not set.");
+        let kubernetes_api_host: &str = &env::var("KUBERNETES_API_HOST").unwrap_or_default();
         let active_host = if kubernetes_api_host.len() > 0 { kubernetes_api_host } else { DEFAULT_HOST };
         Cluster { host: Url::parse(active_host).unwrap() }
     }
