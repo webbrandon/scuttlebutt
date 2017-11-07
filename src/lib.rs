@@ -165,7 +165,7 @@ pub struct ObjectReference {
 }
 
 /// The API host to be used for communication. https://kubernetes.default:443
-const API_HOST: &'static str = &env::var("API_HOST").expect("API_HOST not set.");
+const API_HOST: &'static str = &env::var("KUBERNETES_API_HOST").expect("KUBERNETES_API_HOST not set.");
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -222,7 +222,7 @@ pub trait Events {
 
 impl Cluster {
     pub fn new() -> Cluster {
-        Cluster { host: Url::parse(API_HOST).unwrap() }
+        Cluster { host: Url::parse(KUBERNETES_API_HOST).unwrap() }
     }
 }
 
