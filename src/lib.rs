@@ -11,7 +11,6 @@ extern crate serde_json;
 extern crate serde_derive;
 
 use hyper::{Client, Error as HttpError, Url};
-use std::default::Default;
 use std::env;
 use std::io::{self, Read};
 use std::sync::mpsc::{channel, Receiver};
