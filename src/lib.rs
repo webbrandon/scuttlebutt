@@ -164,7 +164,7 @@ pub struct ObjectReference {
 }
 
 /// The API host to be used for communication. https://kubernetes.default:443
-const KUBERNETES_API_HOST: &'static str = &env::var("KUBERNETES_API_HOST").expect("KUBERNETES_API_HOST not set.");
+const KUBERNETES_API_HOST: &str = &env::var("KUBERNETES_API_HOST").expect("KUBERNETES_API_HOST not set.");
 
 pub type Result<T> = std::result::Result<T, Error>;
 
