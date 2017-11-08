@@ -6,11 +6,14 @@
 #[macro_use]
 extern crate log;
 extern crate hyper;
+extern crate hyper_native_tls;
 extern crate serde_json;
 #[macro_use]
 extern crate serde_derive;
 
+use hyper_native_tls::NativeTlsClient;
 use hyper::{Client, Error as HttpError, Url};
+use hyper::net::HttpsConnector;
 use std::env;
 use std::io::{self, Read};
 use std::sync::mpsc::{channel, Receiver};
@@ -231,8 +234,12 @@ impl Cluster {
 
 impl Events for Cluster {
     fn events(&mut self) -> Result<Receiver<Event>> {
+        let mut client = Client::new();
+        let ssl = NativeTlsClient::new().unwrap();
+        let connector = HttpsConnector::new(ssl);
+        let listener = Client::with_connector(connector);
         let res = try!(
-            Client::new()
+            listener
                 .get(self.host.join("/api/v1/events?watch=true").unwrap())
                 .send()
         );
