@@ -223,11 +223,7 @@ pub trait Events {
 
 impl Cluster {
     pub fn new() -> Cluster {
-        let environment_value: &str = &env::var("KUBERNETES_API_HOST").unwrap();
-        let kubernetes_api_host = match environment_value.len() > 0 {
-            true => environment_value,
-            false => DEFAULT_HOST,
-        };
+        let kubernetes_api_host: &str = &env::var("KUBERNETES_API_HOST").unwrap_or(DEFAULT_HOST.to_string());
         Cluster { host: Url::parse(kubernetes_api_host).unwrap() }
     }
 }
