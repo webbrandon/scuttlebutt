@@ -230,12 +230,11 @@ impl Cluster {
 
 impl Events for Cluster {
     fn events(&mut self) -> Result<Receiver<Event>> {
-        let mut client = Client::new();
         let ssl = NativeTlsClient::new().unwrap();
         let connector = HttpsConnector::new(ssl);
-        let listener = Client::with_connector(connector);
+        let client = Client::with_connector(connector);
         let res = try!(
-            listener
+            client
                 .get(self.host.join("/api/v1/events?watch=true").unwrap())
                 .send()
         );
